@@ -1,0 +1,244 @@
+{% extends 'basic.html' %}
+{% block css %}
+{% load static %}    
+<link rel="stylesheet" href="{% static 'homeScreen.css' %}">
+{% endblock %}
+
+
+{% block body %}
+    <!-- DIGIPOCKET NAVBAR -->
+    <nav class="navbar nav-header">
+        <div class="container-fluid">
+            <div class="row head-style justify-content-center">
+                <div class="col-sm-12">
+                    <i class="fas fa-file" id="logo-conf"></i>
+                    <a class="navbar-brand" id="heads-style" href="#"> DigiPocket</a>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="container-fluid head-main">
+        <!-- message part -->
+        <div class="row">
+            <div class="col-sm-12">
+                {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        <strong>{{message.tags | upper}}: </strong> {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+            </div>
+        </div>
+        <!-- HomeScreen Carousels -->
+        <div class="row justify-content-center">
+            <div class="col-sm-12">
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active " data-bs-interval="2000">
+                                    <p><img src="{% static '/images/homeScreen/flag.jpg' %}" class="d-block w-100 carousel-height"
+                                            alt="..."></p>
+                                </div>
+                                <div class="carousel-item " data-bs-interval="2000">
+                                    <p><img src="{% static '/images/homeScreen/redfort.jpg' %}"
+                                            class="d-block w-100 carousel-height" alt="..."></p>
+
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <p><img src="{% static '/images/homeScreen/digital3.jfif' %}" class="d-block w-100 carousel-height"
+                                            alt="..."></p>
+
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon icon-adjust" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon icon-adjust" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center" id="main-body">
+    <!-- left hand side column -->
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="row my-2">
+                    <div class="col-12">
+                        <h3>Welcome To DigiPocket</h3>
+                        <h5 id="head-tagline">A global platform to Save and Secure your most precious document. </h5>
+                    </div>
+                </div>
+                <div class="row justify-content-center my-4">
+                    <div class="col-4">
+                        <a href="check/login"><button type="button" class="btn btn-dark ">Login</button></a>
+                    </div>
+                    <div class="col-4">
+                        <a href="check/signup"><button type="button" class="btn btn-dark">SignUp</button></a>
+                    </div>
+                </div>
+            </div>
+    <!-- Right hand side column -->
+            <div class="col-sm-12 col-md-6 col-lg-6">
+        <!-- Icon-part -->
+                {% if login is False and signup is False %}
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <i class="fas fa-user-shield" id="logo-icon"></i>
+                    </div>
+                </div>
+                {% endif %}
+
+        <!-- login part -->
+            {% if login is True %}
+            <div class="row justify-content-center">
+                    <div class="col-6">
+                        <h2 id="activity-heading">LOGIN</h2>
+                    </div>
+
+                    <form action="" method="post">{% csrf_token %}
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="card form-card">
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1" class="form-label labels">Number/
+                                                    Username</label>
+                                                <input type="text" autocomplete="off" class="form-control text-color" id="username" name="username">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1"
+                                                    class="form-label labels">Password</label>
+                                                <input type="password" class="form-control text-color" id="password"
+                                                    name="password">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <button type="submit" class="btn btn-dark">Sign In</button>
+
+                                        </div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-sm-12">
+                                            <a href="">Forget your password?</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+
+        <!-- signup part -->
+                {% if signup is True %}
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <h2 id="activity-heading">SIGNUP</h2>
+                    </div>
+                    <form action="" method="post">{% csrf_token %}
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="card mx-auto form-card">
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1"
+                                                    class="form-label labels">USERNAME</label>
+                                                <input type="text" class="form-control text-color" id="username" name="username"
+                                                    placeholder="Enter your number">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <div class="mb-2">
+                                                <label for="exampleFormControlInput1"
+                                                    class="form-label labels">Email</label>
+                                                <input type="email" class="form-control text-color" id="email" name="email">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6">
+                                                    <div class="mb-2">
+                                                        <label for="exampleFormControlInput1"
+                                                            class="form-label labels">First Name</label>
+                                                        <input type="text" class="form-control text-color" id="fName" name="fName">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="mb-2">
+                                                        <label for="exampleFormControlInput1"
+                                                            class="form-label labels">Last Name</label>
+                                                        <input type="text" class="form-control text-color" id="lName" name="lName">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <div class="mb-2">
+                                                <label for="exampleFormControlInput1"
+                                                    class="form-label labels">Password</label>
+                                                <input type="password" class="form-control text-color" id="password1"
+                                                    name="password1">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <div class="mb-2">
+                                                <label for="exampleFormControlInput1" class="form-label labels"> Confirm
+                                                    Password</label>
+                                                <input type="password" class="form-control text-color" id="password2"
+                                                    name="password2">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <button type="submit" class="btn btn-dark">SignUp</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+            </div>
+            <!-- ^col-6 right end -->
+        </div>
+    </div>
+<!-- ^container  -->
+
+{% endblock %}

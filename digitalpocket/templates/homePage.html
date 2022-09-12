@@ -1,0 +1,193 @@
+{%extends 'basic.html' %}
+{% block css %}
+
+{% endblock%}
+{% block decor %}
+<style>
+  .nav-style {
+    background-color: rgb(0, 0, 146);
+    color: white;
+  }
+
+  .card-start {
+    text-align: center;
+  }
+
+  .heads-style {
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular',
+    'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+  }
+
+  #logo-conf {
+    font-size: 25px;
+  }
+
+  .carousel-adjust {
+    border-radius: 10px;
+    border: 5px solid rgb(219, 128, 8);
+  }
+
+  .card-text {
+    text-align: center;
+    font-weight: bolder;
+    color: black;
+  }
+
+  .card-adjust {
+    margin-top: 10px;
+  }
+
+  .link-ref {
+    text-decoration: none;
+
+  }
+
+  .card-sizing {
+    height: 205px;
+  }
+
+  /* //Mobile View */
+  @media (min-width: 300px) and (max-width:767px) {
+    .card-design {
+      width: 20rem;
+      margin-left: 10px;
+    }
+  }
+
+  /* //@media end */
+
+  /* // Medium devices (tablets, 768px and up) */
+  @media (min-width: 768px) {}
+
+  /* //@media end */
+
+  /* // Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) {
+    .carousel-height {
+      height: 350px;
+    }
+  }
+
+  /* //@media end */
+
+  /* // Extra large devices (large desktops, 1200px and up) */
+  @media (min-width: 1200px) {}
+
+  /* //@media end */
+</style>
+{% endblock %}
+{% block body %}
+{% load static %}
+{% if user.is_authenticated %}
+<!-- nav header full -->
+<nav class="navbar navbar-expand-lg navbar-expand-md nav-style">
+  <div class="row justify-content-center">
+    <div class="col-sm-12">
+      <i class="fas fa-file" id="logo-conf"></i>
+      <a class="navbar-brand heads-style" href="">DigiPocket</a>
+      <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link heads-style" aria-current="page" href="#">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link heads-style " aria-current="page" href="#">AboutUs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link heads-style" aria-current="page" href="#">ContactUs</a>
+      </li>
+
+    </ul>
+
+    {% if user.is_authenticated %}
+
+    <p class="heads-style mb-0">Welcome</p>
+    <p class="heads-style mb-0 ml-2">{{user.first_name | title}}</p>
+    <a href="signout/"> <button type="button" class="btn btn-danger ml-2">LOGOUT</button></a>
+
+    {% endif %}
+
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <!-- carosels -->
+  <div class="row justify-content-center">
+    <div class="col-sm-12">
+      <div class="row my-2">
+        <div class="col-12">
+          <div id="carouselExampleControls" class="carousel slide carousel-adjust" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active " data-bs-interval="2000">
+                <p><img src="{% static '/images/homepage/digiin3.png' %}" class="d-block w-100 carousel-height"
+                    alt="..."></p>
+              </div>
+              <div class="carousel-item " data-bs-interval="2000">
+                <p><img src="{% static '/images/homepage/digiin1.jfif' %}" class="d-block w-100 carousel-height"
+                    alt="..."></p>
+
+              </div>
+              <div class="carousel-item" data-bs-interval="2000">
+                <p><img src="{% static '/images/homepage/digiin2.jfif' %}" class="d-block w-100 carousel-height"
+                    alt="..."></p>
+
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon icon-adjust" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon icon-adjust" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- document cards  -->
+  <div class="row justify-content-center card-start">
+    <div class="col-sm-12">
+
+      <div class="row card-design justify-content-center">
+        {% for item in Fields %}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div class="card card-adjust">
+            <a href="doc-page/{{item.field_select}}" class="link-ref">
+              <img src="/media/{{item.field_image}}" class="card-img-top card-sizing"
+               alt="...">
+              <div class="card-body">
+                <p class="card-text">{{item.field_name}}</p>
+              </div>
+            </a>
+
+          </div>
+        </div>
+        <!-- 3COLS -->
+        {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
+      </div>
+
+      <div class="row card-design justify-content-center">
+        {% endif %}
+        {% endfor%}
+        <!-- 3COLS -->
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endblock %}

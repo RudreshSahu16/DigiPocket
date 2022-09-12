@@ -1,0 +1,179 @@
+{% extends 'basic.html' %}
+{% block css %}
+{% endblock %}
+{% block decor %}
+<style>
+  .box {
+    text-align: center;
+  }
+
+  #Doc-head {
+    color: white;
+    background-color: rgb(0, 0, 146);
+  }
+
+  .switcher {
+    width: 50%;
+    font-weight: bolder;
+  }
+
+  #title {
+    border: 2px solid black;
+    color: rgb(62, 110, 200);
+    font-weight: bold;
+  }
+
+  .previewimage {
+    width: 18rem;
+    height: 20rem;
+    margin-top: 3px;
+    border: 2px dashed grey;
+    margin-bottom: 15px;
+
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+{% load static %}
+{% if user.is_authenticated %}
+<div class="container-fluid box">
+  <div class="row justify-content-center">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-12">
+          <h3 id="Doc-head"> UPLOAD {{selective_mode}}</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <nav>
+            <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active switcher" id="nav-home-tab" data-toggle="tab" href="#nav-home"
+                role="tab" aria-controls="nav-home" aria-selected="true">UPLOAD</a>
+              <a class="nav-item nav-link switcher" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
+                role="tab" aria-controls="nav-profile" aria-selected="false">PREVIEW</a>
+            </div>
+          </nav>
+
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+              <div class="row justify-content-center mt-3">
+                <div class="col-10">
+                  <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <div id="image-box">
+                      <input type="text" class="form-control mb-2" name="docTitle[]" id="title"
+                        placeholder="Document Name">
+                      <input type="file" class="form-control" name="file[]" id="imgp" onclick="imageshow()"><br>
+                    </div>
+                    <button class="w3-button w3-round-xlarge w3-teal" type="button" name="add-image" id="add-image">Add
+                      Field</button>
+                    <button class="w3-button w3-round-xlarge w3-teal">Upload</button>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+              <div class="row justify-content-center">
+                {% for item in data %}
+                <div class="col-11 mt-3 ">
+                  <div class="card mx-auto" style="width: 18rem;">
+                    <img src="/media/{{item.doc_image}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <p class="card-text">{{item.doc_title}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-content-center my-2">
+                  <div class="col-11">
+                   <a href="/digiapp/remove/{{item.doc_title}}"> <button type="button" class="btn btn-danger" >Delete</button> </a>
+                  </div>
+                </div>
+                {% endfor%}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+  // add field part code 
+  document.getElementById('add-image').onclick = function (ev) {
+    var image_box = document.getElementById("image-box");
+    var image_title = document.createElement('input');
+    image_title.className = 'form-control mb-2';
+    image_title.id = 'title'
+    image_title.type = 'text';
+    image_title.name = 'docTitle[]';
+    image_title.placeholder = 'Document Name';
+    // image_title.setAttribute("style", "border: 2px solid black; color:rgb(62, 110, 200); font-weight:bold;");
+
+
+    var imagePreview = document.createElement('img');
+    imagePreview.className = 'previewimage';
+    // imagePreview.style.height = '200px';
+    // imagePreview.style.width = '150px';
+    // imagePreview.setAttribute("style", "margin-top:3px; border:2px dashed grey; margin-bottom:5px");
+
+
+    var newField = document.createElement('input');
+    newField.type = 'file';
+    newField.name = 'file[]';
+    newField.className = 'form-control'
+    var breakTag = document.createElement('br');
+    image_box.appendChild(image_title)
+    image_box.appendChild(imagePreview);
+    image_box.appendChild(newField);
+    image_box.appendChild(breakTag);
+    newField.onchange = function (data) {
+
+      if (this.files && this.files[0]) {
+        var imageTaker = new FileReader();
+
+        imageTaker.onload = function (urllink) {
+          imagePreview.src = urllink.target.result;
+        };
+        imageTaker.readAsDataURL(this.files[0]);
+      }
+    }
+  };
+  //  for first default file image
+  function imageshow() {
+    var imagePreview = document.createElement('img');
+    imagePreview.className = 'previewimage';
+    // imagePreview.style.height = '200px';
+    // imagePreview.style.width = '150px';
+    // imagePreview.setAttribute("style", "");
+
+    var a = document.getElementById('imgp');
+
+    a.onchange = function (data) {
+
+      if (this.files && this.files[0]) {
+        var image_box = document.getElementById("image-box");
+        image_box.appendChild(imagePreview);
+        var imageTaker = new FileReader();
+
+        imageTaker.onload = function (urllink) {
+          imagePreview.src = urllink.target.result;
+        };
+        imageTaker.readAsDataURL(this.files[0]);
+      }
+    }
+  }
+</script>
+{% endblock %}

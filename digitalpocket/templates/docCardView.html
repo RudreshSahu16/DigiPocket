@@ -1,0 +1,166 @@
+{% extends 'basic.html' %}
+{% block css %}
+{% endblock %}
+
+{% block decor %}
+<style>
+  .box {
+    text-align: center;
+  }
+
+  #Doc-head {
+    color: white;
+    background-color: rgb(0, 0, 146);
+  }
+
+  .portal-secion {
+    background-color: rgb(219, 128, 8);
+    ;
+    color: rgb(62, 110, 200);
+    font-weight: 90px;
+
+  }
+
+  .card-adjust {
+    margin-top: 10px;
+  }
+
+  .link-ref {
+    text-decoration: none;
+
+  }
+
+  .card-text {
+    text-align: center;
+    font-weight: bolder;
+    color: black;
+  }
+
+  .card-sizing {
+    height: 205px;
+  }
+ .notify{
+   color:red;
+
+ }
+
+
+  /* //Mobile View */
+  @media (min-width: 300px) and (max-width:767px) {
+    .card-design {
+      width: 20rem;
+      margin-left: 10px;
+
+    }
+  }
+
+  /* //@media end */
+
+  /* // Medium devices (tablets, 768px and up) */
+  @media (min-width: 768px) {}
+
+  /* //@media end */
+
+  /* // Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) {}
+
+  /* //@media end */
+
+  /* // Extra large devices (large desktops, 1200px and up) */
+  @media (min-width: 1200px) {}
+
+  /* //@media end */
+</style>
+{% endblock %}
+
+{% block body %}
+{% load static %}
+{% if user.is_authenticated %}
+<div class="container-fluid box">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <!-- header selective Mode -->
+      <div class="row">
+        <div class="col-12">
+          <h2 id="Doc-head">{{select}} DOCUMENTS</h2>
+        </div>
+      </div>
+      <!-- selective Mode Card -->
+      <div class="row justify-content-center">
+        <div class="col-sm-12">
+          <div class="row card-design justify-content-center">
+            {% for item in sub_field %}
+            <div class="col-sm-12 col-md-6 col-lg-4">
+              <div class="card card-adjust">
+                <a href="/digiapp/upload-page/{{item.sub_field_select}}" class="link-ref">
+
+                  <img src="/media/{{item.sub_field_image}}" class="card-img-top card-sizing" alt="...">
+
+                  <div class="card-body">
+                    <p class="card-text">{{item.sub_field_name}}
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </div>
+            {% endfor%}
+          </div>
+
+
+
+        </div>
+      </div>
+<!-- portal head and card  -->
+     
+          <div class="row justify-content-center mt-2">
+        <div class="col-10 portal-secion">
+          <h3>Get Your Documents From Government Portal</h3>
+        </div>
+      </div>
+      {% if select == category %}
+      <div class="row card-design justify-content-center">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div class="card card-adjust">
+            <img src="{% static '/images/MP.jfif' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              {% for key, value in link.items %}
+              <div class="row justify-content-center">
+              <div class="col-4">
+                <h5>{{key}}</h5>
+              </div>  
+              <div class="col-4">
+                <a href="{{value}}" target="_blank" class="link-ref">
+                  <p class="card-text">CLICK HERE</p>
+                </a>
+              </div>
+            </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% if select != category %}
+      <h1 class="notify mt-5"> SORRY </h1>
+      <h3 class="notify mt-3">WE DONT HAVE ANY ACCESS TO THIS CATEGORY. KINDLY VISIT YOUR NEARER SERVICES DEPARTMENT.</h3>
+     {% endif %} 
+
+    
+<!-- portal part end -->
+    </div>
+  </div>
+
+</div>
+{% endif %}
+  {% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+  
+
+
+
+
+</script>
+{% endblock %}
